@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <script src="{{url_for('static', filename='modal.js')}}"></script>
+
+    <title>
+        {% block title %}
+        {% if title %} {{title}} {% else %}Stocks analysis{% endif %}
+        {% endblock title %}
+    </title>
+  </head>
+  <body>
+    <div class="contain">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('account') }}">
+            <img id="home-profile-picture"src="{{ profile_picture }}"> 
+          </a>
+        {% endif %}
+        <a class="navbar-brand" href="{{ url_for('home') }}">StockSearch</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        {% block searchbar %}{% endblock searchbar %}
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            {% if current_user.is_authenticated %}
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('recommend') }}">Recommend <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('invest') }}">Portfolio <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('account') }}">Account <span class="sr-only">(current)</span></a>
+            </li>
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url_for('logout') }}">Logout <span class="sr-only">(current)</span></a>
+              </li>
+            {% else %}
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{ url_for('login') }}">Login <span class="sr-only">(current)</span></a>
+                </li>
+              <li class="nav-item active">
+                  <a class="nav-link" href="{{ url_for('register') }}">Register <span class="sr-only">(current)</span></a>
+              </li>
+            {% endif %}
+          </ul>
+
+        </div>
+      </div>
+      </nav>
+      <div class="container">
+
+    <div class="flashed-messages">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category,message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    </div>
+    
+    {% block invest %}{% endblock invest %}
+    {% block graph %}{% endblock graph %}
+    {% block content %}{% endblock content %}
+    {% block chatbox %}{% endblock chatbox %}
+    {% block modal %}{% endblock modal %}
+    {% block footer %}{% endblock footer %}
+
+    </div>
+
+    
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js" integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+
+    </div>
+
+
+</body>
+
+
+</html>

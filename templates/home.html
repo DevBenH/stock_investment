@@ -1,0 +1,275 @@
+{% extends 'layout.html' %}
+
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+
+        {% block title %}Home{% endblock title %}
+    </head>
+    <body>
+        
+        {% block searchbar %}
+
+            <form action="" method="POST">
+                {{form4.hidden_tag()}}
+                {{form4.search()}}
+                {{form4.submit()}}
+            </form>
+        {% endblock searchbar%}
+
+        {% block invest %}
+        <div class="company">
+            <h1 id="main-header"> {{ company_name.upper() }}  {{ search }} </h1>
+            <h2><strong> {{ adj_close }}  <span style="color: {{color_change_difference}}" id="stock-stats">
+            {% if positive_difference %}
+                +{{ difference }} 
+                (+{{ percentage_difference }}%) 
+            {% else %}
+                {{ difference }} 
+                ({{ percentage_difference }}%) 
+            {% endif %}
+            <button class="btn invest-button">INVEST</button>
+        </div>
+        <div class="stats-content">
+            <h4> High    {{ high }} </h4>
+            <div class = "vertical"></div> 
+            <h4> Low    {{ low }} </h4>
+            <div class = "vertical"></div> 
+            <h4> Volume    {{ volume }} </h4>
+            <div class = "vertical"></div> 
+            <h4> Open    {{ open_value }} </h4>
+            <div class = "vertical"></div> 
+            <h4> Close    {{ close }} </h4>
+            <div class = "vertical"></div> 
+            <h4> Reliability  {{ pmcc }} </h4>
+
+        </div>
+
+        <hr class="main-hr">
+
+        {% endblock invest %}
+
+        {% block graph %}
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+              <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img src="{{ url_for('static', filename='images/1month.png') }}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/buyorsell.png') }}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/15years.png') }}" class="d-block w-100" alt="...">
+              </div>
+              <div class="carousel-item">
+                <img src="{{ url_for('static', filename='images/predictgraph.png') }}" class="d-block w-100" alt="...">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div>
+        {% endblock graph %}
+
+        <div class="info-section">
+        
+            {% block content %}
+            <div class="main-news-section">
+                {% for i in range(len_containers) %}
+                    <div class="single-section">
+                        <img id="news-image" src="{{images[i].get('src')}}">
+                        <p class="news-section">{{ containers[i].getText() }}</p>
+                    </div>
+
+                {% endfor %}
+            </div>
+
+        {% endblock content%}
+
+
+        </div>
+  
+
+        {% block chatbox %}
+        <div class="chat-box">
+            <div class="messages-chatbox">
+                <div class="chatbox-header">
+                    <h1>{{search}} Chat Room</h1>
+                </div>
+                <div class="scrollable">
+                    {% for i in range(len_main_messages) %}
+                        {% if main_messages[i] in user_messages %}
+                        <div class="user-single-message">
+                            <div class="user-info">
+                                <img src="{{ url_for('static', filename='profilepicture/' + main_messages[i].image_file) }}">
+                                <span class="chat-box-username">{{ main_messages[i].username }}</span>
+                            </div>
+                            <br>
+                            {{ main_messages[i].comment }}
+                        </div>
+                        {% else %}
+                        <div class="other-single-message">
+                            <div class="user-info">
+                                <img src="{{ url_for('static', filename='profilepicture/' + main_messages[i].image_file) }}">
+                                <span class="chat-box-username">{{ main_messages[i].username }}</span>
+                            </div>
+                            <br>
+                            {{ main_messages[i].comment }}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="lower-chatbox">
+                <form class="upload" method="POST" action="">
+                    {{ form2.hidden_tag() }}
+                    {{ form2.comment(class="message-input") }}  
+                    {{ form2.upload(class="btn btn-outline-info btn-add") }}
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% endblock chatbox %}
+
+        {% block modal %}
+
+            <div class="modal-bg">
+                <div tabindex="-1">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <form method="POST" action="">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            {{ form1.hidden_tag() }}
+                            <fieldset class="form-group">
+ 
+                                <legend id="invest-legend" class="border-bottom mb-4">Add a Stock</legend>
+                                <div class="form-group">
+                                    <div class="form-small-section">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-tag-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M2 1a1 1 0 0 0-1 1v4.586a1 1 0 0 0 .293.707l7 7a1 1 0 0 0 1.414 0l4.586-4.586a1 1 0 0 0 0-1.414l-7-7A1 1 0 0 0 6.586 1H2zm4 3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+                                        </svg>                                        
+                                        {{ form1.stock.label(class="form-control-label") }}
+                                    {% if form1.stock.errors %}
+                                        {{ form1.stock(class="form-control form-control=lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form1.stock.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ form1.stock(class="form-control form-control=lg") }}  
+                                    {% endif %}
+                                    </div>
+                                    <div class="form-small-section">
+                                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd" d="M15 4H1v8h14V4zM1 3a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H1z"/>
+                                            <path d="M13 4a2 2 0 0 0 2 2V4h-2zM3 4a2 2 0 0 1-2 2V4h2zm10 8a2 2 0 0 1 2-2v2h-2zM3 12a2 2 0 0 0-2-2v2h2zm7-4a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"/>
+                                        </svg>
+                                        {{ form1.price.label(class="form-control-label") }}
+                          
+                                    {% if form1.price.errors %}
+                                    {{ form1.price(class="form-control form-control=lg is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form1.price.errors %}
+                                            <span> {{ error }} </span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                        {{ form1.price(class="form-control form-control=lg") }}  
+                                    {% endif %}
+                                    </div>
+                                </div>
+                                <div class="modal-buttons">
+                                    <button type="button" class="btn btn-close" data-dismiss="modal">Close</button>
+                                    {{ form1.submit(class="btn btn-outline-info btn-add") }}
+            
+                                </div>
+                            </fieldset>
+                        </form>
+
+        
+                    </div>
+                    </div>
+                </div>
+            </div>              
+            <script src="{{url_for('static', filename='modal.js')}}"></script>
+
+        {% endblock modal %}
+
+        {% block footer %}
+        <footer>
+           
+                <div class="container">
+                <div class="footer-content">
+                <div class="links">
+                {% if current_user.is_authenticated %}
+                    <h1>Browse our site</h1>
+                    <br>
+                    <a href="{{url_for('home')}}">Home</a>
+                    <br>
+                    <a href="{{url_for('recommend')}}">Recommend</a>
+                    <br>
+                    <a href="{{url_for('invest')}}">Portfolio</a>
+                    <br>
+                    <a href="{{url_for('account')}}">Account</a>
+                    <br>
+                    <a href="{{url_for('logout')}}">Logout</a>
+                    <br>
+                    <a href="{{url_for('home')}}">Home</a>
+                {% endif %}
+                </div>
+                <div class="social-media">
+                    <h1>Social Media</h1>
+                    <br>
+                    <a href="https://www.facebook.com/" class="fa fa-facebook"></a>
+                    <a href="https://www.twitter.com/" class="fa fa-twitter"></a>
+                    <a href="https://www.instagram.com/sam1penny" class="fa fa-instagram"></a>
+                    <a href="https://www.pinterest.com/" class="fa fa-pinterest"></a>
+                    <a href="https://www.linkedin.com/" class="fa fa-linkedin"></a>
+                </div>
+                <div class="newsletter">
+                    <h1>Sign up to our newsletter</h1>
+                    <br>
+                    <form action="" method="POST">
+                        {{form3.hidden_tag()}}
+                        {{form3.email()}}
+                        {{form3.submit()}}
+                    </form>
+                    <br>
+                    <p>Every week we will send you the top 5 <br> stocks to look out for</p>
+
+                </div>
+                </div>
+         
+            <!-- Footer Elements -->
+        
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            <a href="{{url_for('home')}}"> StockSearch.com</a>
+            </div>
+            <!-- Copyright -->
+        
+        </footer>
+        <!-- Footer -->
+        {% endblock footer %}
+</div>
+    </body>
+</html>
+
+
+

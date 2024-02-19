@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+<html>
+    <head>
+        {% block title %}Recommendations{% endblock title %}
+    </head>
+</html>
+<body>
+{% block graph %}
+    {% for image in graphs%}
+        <div class="stock-feed">
+
+            <div class="card" style="width: 18rem;">
+                <img src="{{ url_for('static', filename='images/recommendations/' + image) }}" class="card-img-top">
+                <div class="card-body">
+                  <h5 class="card-title">{{ recommendedStocks[image[0]|int] }} - {{ company_names[image[0]|int] }}</h5>
+                  <p class="card-text">This stock is predicted to increase in the next month and has a high reliability value.</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item">Adj Close {{ adj_close[image[0]|int]}}</li>
+                  <li class="list-group-item">Volume {{ volume[image[0]|int]}}</li>
+                </ul>
+                <div class="card-body">
+                  <a href="#" class="card-link">View Stock</a>
+                  <a href="#" class="card-link">Discard</a>
+                </div>
+              </div>
+
+        </div>
+
+    {% endfor %}
+
+
+{% endblock graph %}
+</body>

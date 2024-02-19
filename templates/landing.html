@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!--Creates page title-->
+        <title>Welcome</title>
+        <!--Links the HTML file to bootstrap and the style.css styling file-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" integrity="sha384-VCmXjywReHh4PwowAiWNagnWcLhlEJLA5buUprzK8rxFgeH0kww/aWY76TfkUoSX" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}">
+        <!--Links to google fontss to get more fonts-->
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    </head>
+    <body>
+        <div class="welcome-section">
+            <!--Header - welcomes the user and directs them to either login or signup-->
+            <h1> Welcome to Stock Search</h1>
+            <p>Please login or create an account to use our services</p>
+            <div class="login-signup">
+                <!--Url for links the page to the route name of the file-->
+                <a class="nav-link" href="{{ url_for('login') }}">LOGIN <span class="sr-only">(current)</span></a>
+
+                <div class="vertical"></div>
+                <a class="nav-link" href="{{ url_for('register') }}">SIGNUP <span class="sr-only">(current)</span></a>
+            </div>
+    </div>
+</div>
+
+    </body>
+</html>
+

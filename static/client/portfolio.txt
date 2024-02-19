@@ -1,0 +1,9 @@
+Id, Username, Stock, Ticker, Value, Change, Percentage Change, Date 
+1, Benjamin, Ferrari, RACE, 149.369, -10.251, -6.4473, 2020-08-25, 
+2, Benjamin, Facebook, FB, 124.011, -10.793, -8.0548, 2020-08-25, 
+3, Benjamin, Tesla, TSLA, 543.683, -21.071, -3.736, 2020-08-25, 
+5, Benjamin, BP, BPT, 171.494, -86.327, -36.7347, 2020-08-26, 
+6, Benjamin, Sandstorm, SAND, 494.226, -5.841, -1.1682, 2020-08-26, 
+7, Benjamin, Tesla, TSLA, 444.722, -61.997, -12.3995, 2020-08-31, 
+8, Benjamin, Tesla, TSLA, 175.828, -27.415, -13.7075, 2020-09-24, 
+9, Benjamin, Ferrari, RACE, 485, 0, 0, 2020-09-28, 
